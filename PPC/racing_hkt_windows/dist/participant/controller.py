@@ -21,7 +21,7 @@ def steering(path: list[dict], state: dict):
     y = state["y"]
     yaw = state["yaw"]
 
-    # find closest waypoint
+    #finding the closest waypoint
     closest_index = 0
     min_dist = 1e9
 
@@ -34,7 +34,7 @@ def steering(path: list[dict], state: dict):
             min_dist = dist
             closest_index = i
 
-    # look ahead waypoint
+    #look ahead waypoint
     lookahead = 3
     target_index = min(closest_index + lookahead, len(path)-1)
     target = path[target_index]
@@ -46,13 +46,16 @@ def steering(path: list[dict], state: dict):
 
     angle_error = target_angle - yaw
 
-    # normalize angle
+    #normalize the angle
     while angle_error > np.pi:
         angle_error -= 2*np.pi
     while angle_error < -np.pi:
         angle_error += 2*np.pi
 
-    steer = 0.5 * angle_error
+    if abs(state["vx"]) < 4.5:
+        steer = 0.05 * angle_error
+    else:
+        steer = 0.5 * angle_error
 
     # 0.5 in the max steering angle in radians (about 28.6 degrees)
     return np.clip(steer, -0.5, 0.5)
