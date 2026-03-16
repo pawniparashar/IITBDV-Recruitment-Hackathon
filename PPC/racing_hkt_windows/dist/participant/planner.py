@@ -34,7 +34,6 @@ def plan(cones: list[dict]) -> list[dict]:
 
     # implement a planning algorithm to generate a path from the blue and yellow cones
 
-    #midpoint planner
     n = min(len(blue), len(yellow))
 
     for i in range(n):
